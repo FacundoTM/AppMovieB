@@ -12,16 +12,28 @@ export class AppService {
     // Hacemos uso de las variables de entorno.
   }
 
-  async obtenerPeliculas(sort_by?: string, page?: number): Promise<any> {
-    const baseUrl = 'https://api.themoviedb.org/3/discover/movie';
+  async obtenerPeliculas({
+    sort_by,
+    page,
+    busqueda,
+  }: {
+    sort_by?: string;
+    page?: number;
+    busqueda?: string;
+  }): Promise<any> {
+    const baseDiscover = 'https://api.themoviedb.org/3/discover/movie';
+    const baseSearch = 'https://api.themoviedb.org/3/search/collection';
+    const baseUrl = busqueda ? baseSearch : baseDiscover;
+
     const params = new URLSearchParams({
       include_adult: 'false',
       include_video: 'false',
       language: 'es-ES',
     });
 
-    if (sort_by) params.append('sort_by', sort_by);
-    if (page) params.append('page', page.toString());
+    if (busqueda) params.append('query', busqueda);
+    if (sort_by && !busqueda) params.append('sort_by', sort_by);
+    if (page && !busqueda) params.append('page', page.toString());
 
     const url = `${baseUrl}?${params.toString()}`;
 
