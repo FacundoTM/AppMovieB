@@ -22,7 +22,8 @@ export class AppService {
     busqueda?: string;
   }): Promise<any> {
     const baseDiscover = 'https://api.themoviedb.org/3/discover/movie';
-    const baseSearch = 'https://api.themoviedb.org/3/search/collection';
+    const baseSearch = 'https://api.themoviedb.org/3/search/movie';
+
     const baseUrl = busqueda ? baseSearch : baseDiscover;
 
     const params = new URLSearchParams({
